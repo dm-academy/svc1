@@ -10,4 +10,4 @@ variables:
   imageName: 'catnip:$(build.buildId)'
 
 steps:
- - script: docker build -t $(dockerId)/$(imageName) .
+ - script: docker build -t $(dockerId)/$(imageName) flask-app/
