@@ -4,11 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 pool:
-  vmImage: 'Ubuntu 16.04'
+  vmImage: 'Ubuntu-18.04'
 
 variables:
   imageName: 'catnip:$(build.buildId)'
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+ - script: docker build -t $(dockerId)/$(imageName) .
