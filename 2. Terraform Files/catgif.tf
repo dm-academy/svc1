@@ -4,7 +4,7 @@ provider "azurerm" {
     tenant_id       = "a081ff79-318c-45ec-95f3-38ebc2801472"
 }
 
-# Create a resource group if it doesn’t exist
+# Create a resource group if it doesnï¿½t exist
 resource "azurerm_resource_group" "myterraformgroup" {
     name     = "myResourceGroup"
     location = "eastus"
@@ -60,6 +60,17 @@ resource "azurerm_network_security_group" "myterraformnsg" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "22"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+        security_rule {
+        name                       = "CatGIFApp"
+        priority                   = 1002
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "5000"
         source_address_prefix      = "*"
         destination_address_prefix = "*"
     }
@@ -136,13 +147,14 @@ resource "azurerm_virtual_machine" "myterraformvm" {
     os_profile {
         computer_name  = "myvm"
         admin_username = "azureuser"
+        admin_password = "password"
     }
 
     os_profile_linux_config {
-        disable_password_authentication = true
+        disable_password_authentication = false
         ssh_keys {
             path     = "/home/azureuser/.ssh/authorized_keys"
-            key_data = "ssh-rsa {YOUR KEY HERE}"
+            key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAlMCUgtWBLXk4jCreRY0CoPnibVA2PktIJfypOedrvN+8X6Q/fCpgj0h0LLkBcbje+OZngBdVfWvvFHVpTeuCQX3KPic93kSKJF7H20V49XCIqJ+JsYmdWlZpFBuZx53cv5kFe00h/FEpCqdHlfwmH6UVbfi3vcUwWlcv+IadpzijRpJs7fbyZLw7X/PJdgdAFWlDFZaEyE3nd8NxQAcCqHvjFMXWEI9S57HXPh/cZIEZ9baFa6iDYgMYORCaAaNrHtGSXHcqPaJ3LFlJcnYtt+cay9x/NqIHasCwjUGgBDY4SkdJCMyWNMMCmfO5UiP+/UTepq4ToTiw4tM9I9k8PQ== rsa-key-20181102"
         }
     }
 
@@ -154,4 +166,27 @@ resource "azurerm_virtual_machine" "myterraformvm" {
     tags {
         environment = "Terraform Demo"
     }
+
+    provisioner "file" {
+    source      = "script.sh"
+    destination = "/tmp/script.sh"
+      connection {
+    type = "ssh"
+    user = "azureuser"
+    password = "password"
+  }
+  }
+
+    provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
+    ]
+      connection {
+    type = "ssh"
+    user = "azureuser"
+    password = "password"
+  }
+  }
+    
 }
