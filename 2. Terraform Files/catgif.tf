@@ -1,3 +1,9 @@
+terraform {
+ required_version = ">= 0.11"
+ 
+backend "azurerm" {}
+ }
+
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
     subscription_id = "91b91d85-30a9-4de4-bff8-02b880475410"
