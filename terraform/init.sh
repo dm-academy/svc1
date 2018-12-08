@@ -1,4 +1,6 @@
 #!/bin/bash
+ls -al
+pwd
 terraform init \
    -backend-config="storage_account_name=terraformseis664" \
    -backend-config="container_name=terraform" \
