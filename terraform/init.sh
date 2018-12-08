@@ -1,5 +1,5 @@
 #!/bin/bash
-ls -al
+ls
 pwd
 terraform init \
    -backend-config="storage_account_name=terraformseis664" \
