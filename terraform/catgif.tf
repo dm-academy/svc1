@@ -1,7 +1,11 @@
 terraform {
  required_version = ">= 0.11"
  
-backend "azurerm" {}
+backend "azurerm" {
+storage_account_name="terraformseis664"
+container_name="terraform"
+key="demo-catgif.terraform.tfstate"
+}
  }
 
 # Configure the Microsoft Azure Provider
