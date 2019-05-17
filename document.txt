@@ -1,0 +1,6 @@
+#documentation text for current progress in lab 3
+#flask app has been built and runs but returns an error
+#Connection reset by peer 
+#currently built to run on port 4086
+#what's causing the error? who the heck knows 
+#will I ever be able to fix it? again, a great question
